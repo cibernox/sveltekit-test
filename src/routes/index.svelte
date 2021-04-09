@@ -1,9 +1,11 @@
 <script>
 	import Counter from '$lib/Counter.svelte';
+	import { _ } from 'svelte-i18n';
 </script>
 
 <main>
 	<h1>Hello world!</h1>
+	<h1>{$_('example')}</h1>
 
 	<Counter />
 
