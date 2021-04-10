@@ -1,11 +1,11 @@
 <script context="module">
-	import { addMessages, init, getLocaleFromNavigator } from 'svelte-i18n';
-    import en from '../../locales/en.json';
+	import { addMessages, init } from 'precompile-intl-runtime';
+    import en from '../../locales/en.js';
 	// @ts-ignore
-    addMessages(en)
+    addMessages('en', en)
 
     init({
 		fallbackLocale: 'en',
-		initialLocale: getLocaleFromNavigator(),
+		initialLocale: 'en'
 	});
 </script>

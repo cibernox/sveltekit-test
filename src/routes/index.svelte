@@ -1,11 +1,22 @@
 <script>
 	import Counter from '$lib/Counter.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from 'precompile-intl-runtime';
+	let now = new Date();
+	debugger
+	let thingy = $_('interpolated', { count: 123 });
 </script>
 
 <main>
 	<h1>Hello world!</h1>
-	<h1>{$_('example')}</h1>
+	<p>{$_('plain')}</p>
+	<p>{$_('interpolated', { values: { count: 123 }})}</p>
+	<p>{$_('time', { now: now })}</p>
+	<p>{$_('date', { today: now })}</p>
+	<p>{$_('number', { n: 123456789 })}</p>
+	<p>{$_('number', { n: 1.34 })}</p>
+	<p>{$_('pluralized', { count: 2 })}</p>
+	<p>{$_('pluralized-with-hash', { count: 1 })}</p>
+	<p>{$_('selected', { gender: 'female' })}</p>
 
 	<Counter />
 

@@ -1,7 +1,6 @@
 const static = require('@sveltejs/adapter-static');
 const pkg = require('./package.json');
 
-
 /** @type {import('@sveltejs/kit').Config} */
 module.exports = {
 	kit: {
@@ -22,7 +21,33 @@ module.exports = {
 		vite: {
 			ssr: {
 				noExternal: Object.keys(pkg.dependencies || {})
-			}
+			},
+            plugins: [
+                myPlugin('locales')
+            ]			
 		}
 	}
 };
+
+
+function myPlugin(localesFolder) {
+	const virtualFileId = '@my-virtual-file'
+  
+	return {
+	  name: 'my-plugin', // required, will show up in warnings and errors
+	  resolveId(id) {
+		  if (id.indexOf(localesFolder) > -1) {
+			return '../../locales/en.js'
+		  }
+	  },
+	  load(id) {
+		if (id.indexOf(localesFolder) > -1) {
+			console.log(id, 'id');
+			return `export default {
+				plain: "Some text without interpolations",
+				interpolated: (c) => \`A text where I interpolate \${c} times\`,
+			}`
+		}
+	  }
+	}
+  }
