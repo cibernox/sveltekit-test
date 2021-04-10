@@ -1,5 +1,7 @@
 const static = require('@sveltejs/adapter-static');
 const pkg = require('./package.json');
+const babel = require('@babel/core');
+const intlPrecompiler = require("babel-plugin-precompile-intl");
 
 /** @type {import('@sveltejs/kit').Config} */
 module.exports = {
@@ -23,31 +25,22 @@ module.exports = {
 				noExternal: Object.keys(pkg.dependencies || {})
 			},
             plugins: [
-                myPlugin('locales')
+                myPlugin('./locales')
             ]			
 		}
 	}
 };
 
 
-function myPlugin(localesFolder) {
-	const virtualFileId = '@my-virtual-file'
-  
+function myPlugin(localesFolder) {  
 	return {
-	  name: 'my-plugin', // required, will show up in warnings and errors
-	  resolveId(id) {
-		  if (id.indexOf(localesFolder) > -1) {
-			return '../../locales/en.js'
-		  }
-	  },
-	  load(id) {
-		if (id.indexOf(localesFolder) > -1) {
-			console.log(id, 'id');
-			return `export default {
-				plain: "Some text without interpolations",
-				interpolated: (c) => \`A text where I interpolate \${c} times\`,
-			}`
+	  	name: 'my-plugin', // required, will show up in warnings and errors
+		transform(code, id) {			
+			if (id.indexOf('en.json') > -1) {
+				return babel.transform(code, {
+					plugins: [intlPrecompiler]
+				}).code;
+			}
 		}
-	  }
 	}
-  }
+}

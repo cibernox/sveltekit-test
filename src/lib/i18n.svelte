@@ -1,6 +1,6 @@
 <script context="module">
 	import { addMessages, init } from 'precompile-intl-runtime';
-    import en from '../../locales/en.js';
+    import en from '../../locales/en.json';
 	// @ts-ignore
     addMessages('en', en)
 

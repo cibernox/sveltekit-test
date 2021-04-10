@@ -10,13 +10,13 @@
 	<h1>Hello world!</h1>
 	<p>{$_('plain')}</p>
 	<p>{$_('interpolated', { values: { count: 123 }})}</p>
-	<p>{$_('time', { now: now })}</p>
-	<p>{$_('date', { today: now })}</p>
-	<p>{$_('number', { n: 123456789 })}</p>
-	<p>{$_('number', { n: 1.34 })}</p>
-	<p>{$_('pluralized', { count: 2 })}</p>
-	<p>{$_('pluralized-with-hash', { count: 1 })}</p>
-	<p>{$_('selected', { gender: 'female' })}</p>
+	<p>{$_('time', { values: { now: now } })}</p>
+	<p>{$_('date', { values: { today: now } })}</p>
+	<p>{$_('number', { values: { n: 123456789 } })}</p>
+	<p>{$_('number', { values: { n: 1.34 } })}</p>
+	<p>{$_('pluralized', { values: { count: 2 } })}</p>
+	<p>{$_('pluralized-with-hash', { values: { count: 1 } })}</p>
+	<p>{$_('selected', { values: { gender: 'female' } })}</p>
 
 	<Counter />
 
