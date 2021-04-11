@@ -1,6 +1,7 @@
 <script>
 	import Counter from '$lib/Counter.svelte';
 	import { _ } from 'svelte-i18n';
+	let now = new Date();
 </script>
 
 <main>
