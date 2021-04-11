@@ -2,8 +2,6 @@
 	import Counter from '$lib/Counter.svelte';
 	import { _ } from 'precompile-intl-runtime';
 	let now = new Date();
-	debugger
-	let thingy = $_('interpolated', { count: 123 });
 </script>
 
 <main>
