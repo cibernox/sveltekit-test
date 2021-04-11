@@ -2,6 +2,7 @@ const static = require('@sveltejs/adapter-static');
 const pkg = require('./package.json');
 const babel = require('@babel/core');
 const intlPrecompiler = require("babel-plugin-precompile-intl");
+const fs = require('fs');
 
 /** @type {import('@sveltejs/kit').Config} */
 module.exports = {
@@ -35,11 +36,26 @@ module.exports = {
 function myPlugin(localesFolder) {  
 	return {
 	  	name: 'my-plugin', // required, will show up in warnings and errors
-		transform(code, id) {			
-			if (id.indexOf('en.json') > -1) {
+		// enforce: 'pre',
+		// resolveId(id) {
+		// 	if (id === 'locales/en') {
+		// 		return id + '.js';
+		// 	}
+		// },
+		// load(id) {
+		// 	if (id.includes('locales/en')) {
+		// 		return fs.readFileSync('./' + id.replace('.js', '.json'), 'utf8');
+		// 	}
+		// },
+		transform(code, id, ssr) {			
+			if (id.indexOf('locales/en') > -1) {
+				// debugger;
+				// return babel.transform('export default ' + code, {
+					debugger;
 				return babel.transform(code, {
 					plugins: [intlPrecompiler]
-				}).code;
+				}).code
+				// .replace('"precompile-intl-runtime"', '"node_modules/precompile-intl-runtime"');
 			}
 		}
 	}
