@@ -1,7 +1,8 @@
 const static = require('@sveltejs/adapter-static');
 const pkg = require('./package.json');
+const babel = require('@babel/core');
+const intlPrecompiler = require("babel-plugin-precompile-intl");
 
-console.log('static', static());
 /** @type {import('@sveltejs/kit').Config} */
 module.exports = {
 	kit: {
@@ -9,14 +10,32 @@ module.exports = {
 		// You can create optimized builds for different platforms by
 		// specifying a different adapter
 		adapter: static(),
-
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
-
+		prerender: {
+			enabled: false
+		},
+		ssr: false,
 		vite: {
 			ssr: {
 				noExternal: Object.keys(pkg.dependencies || {})
-			}
+			},
+            plugins: [
+                myPlugin()
+            ]			
 		}
 	}
 };
+
+function myPlugin() {  
+	return {
+	  	name: 'my-plugin', // required, will show up in warnings and errors
+		transform(code, id, ssr) {			
+			if (id.indexOf('locales/en') > -1) {
+				return babel.transform(code, {
+					plugins: [intlPrecompiler]
+				}).code
+			}
+		}
+	}
+}
